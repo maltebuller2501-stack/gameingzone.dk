@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamingZone</title>
+  <style>
+    :root { --bg:#090b16; --panel:#14182b; --blue:#31d7ff; --purple:#9b65ff; --text:#f5f7ff; --muted:#aab2cc; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial, sans-serif; color:var(--text); background:radial-gradient(circle at top right,#25205a 0,#090b16 42%); }
+    header { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:22px 7%; border-bottom:1px solid #ffffff18; }
+    .logo { font-size:1.55rem; font-weight:900; letter-spacing:1px; }
+    .logo span { color:var(--blue); }
+    nav { display:flex; gap:20px; flex-wrap:wrap; }
+    a { color:var(--muted); text-decoration:none; }
+    a:hover { color:var(--blue); }
+    .hero { padding:82px 7% 70px; text-align:center; }
+    .tag { color:var(--blue); font-weight:bold; letter-spacing:3px; text-transform:uppercase; }
+    h1 { font-size:clamp(2.7rem,7vw,5.4rem); margin:15px 0; }
+    h1 span { background:linear-gradient(90deg,var(--blue),var(--purple)); color:transparent; background-clip:text; }
+    .hero p { color:var(--muted); font-size:1.1rem; max-width:620px; margin:0 auto 28px; line-height:1.6; }
+    button { border:0; border-radius:10px; padding:13px 19px; font-weight:bold; cursor:pointer; color:#07101b; background:linear-gradient(90deg,var(--blue),#8b8cff); }
+    button.secondary { color:var(--text); background:#ffffff12; border:1px solid #ffffff25; }
+    main { padding:15px 7% 70px; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:12px; margin:24px 0; }
+    h2 { font-size:1.8rem; margin:0; }
+    .games { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+    .card { background:linear-gradient(145deg,#1b2040,#111426); border:1px solid #ffffff18; border-radius:16px; padding:22px; min-height:180px; }
+    .game-icon { font-size:2.3rem; }
+    .card p { color:var(--muted); line-height:1.5; }
+    .panel { margin-top:46px; padding:24px; background:#101427; border:1px solid #ffffff20; border-radius:16px; }
+    .panel[hidden] { display:none; }
+    .panel input, .panel textarea { width:100%; margin:8px 0 12px; padding:12px; border-radius:8px; border:1px solid #ffffff30; background:#090d1c; color:white; }
+    footer { text-align:center; color:var(--muted); border-top:1px solid #ffffff18; padding:25px; }
+    @media(max-width:600px) { header { align-items:flex-start; flex-direction:column; } .hero { padding-top:55px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">GAMING<span>ZONE</span></div>
+    <nav>
+      <a href="#home">Home</a><a href="#games">Games</a><a href="#community">Community</a>
+      <a href="#owner" id="ownerLink">Owner panel</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="tag">Your next level starts here</div>
+    <h1>WELCOME TO <span>GAMINGZONE</span></h1>
+    <p>Discover games, meet other players, and get ready for your next adventure. This is your zone.</p>
+    <button onclick="document.querySelector('#games').scrollIntoView({behavior:'smooth'})">Explore games</button>
+  </section>
+
+  <main>
+    <section id="games">
+      <div class="section-head"><h2>Featured games</h2><span class="tag">Play • Compete • Have fun</span></div>
+      <div class="games" id="gameGrid">
+        <article class="card"><div class="game-icon">⚔️</div><h3>Action Arena</h3><p>Fast-paced action and exciting challenges.</p></article>
+        <article class="card"><div class="game-icon">🏎️</div><h3>Racing Rush</h3><p>Race your way to the top of the leaderboard.</p></article>
+        <article class="card"><div class="game-icon">🧱</div><h3>Build & Explore</h3><p>Create, explore, and play with friends.</p></article>
+      </div>
+    </section>
+
+    <section class="panel" id="community">
+      <h2>GamingZone Community</h2>
+      <p>Bring your friends and share your favourite games. More community features coming soon!</p>
+    </section>
+
+    <section class="panel" id="owner" hidden>
+      <h2>Owner panel — demo</h2>
+      <p>This is a front-end demo panel. It does not have a secure owner login or save changes online.</p>
+      <label for="gameName">New game name</label>
+      <input id="gameName" placeholder="Enter a game name">
+      <label for="gameDescription">Short description</label>
+      <textarea id="gameDescription" rows="3" placeholder="Write a short description"></textarea>
+      <button onclick="addGame()">Add game to this page</button>
+      <button class="secondary" onclick="document.querySelector('#owner').hidden=true">Close panel</button>
+    </section>
+  </main>
+
+  <footer>© 2026 GamingZone • Made for gamers</footer>
+  <script>
+    const ownerLink = document.getElementById('ownerLink');
+    ownerLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      const panel = document.getElementById('owner');
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.scrollIntoView({behavior:'smooth'});
+    });
+    function addGame() {
+      const name = document.getElementById('gameName').value.trim();
+      const description = document.getElementById('gameDescription').value.trim();
+      if (!name) { alert('Please enter a game name.'); return; }
+      const card = document.createElement('article');
+      card.className = 'card';
+      const icon = document.createElement('div');
+      icon.className = 'game-icon';
+      icon.textContent = '🎮';
+      const heading = document.createElement('h3');
+      heading.textContent = name;
+      const para = document.createElement('p');
+      para.textContent = description || 'A new game on GamingZone.';
+      card.append(icon, heading, para);
+      document.getElementById('gameGrid').appendChild(card);
+      document.getElementById('gameName').value = '';
+      document.getElementById('gameDescription').value = '';
+    }
+  </script>
+</body>
+</html>
